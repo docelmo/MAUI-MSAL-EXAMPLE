@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using oneDocument.Auth.Services;
 
 namespace MAUI_MSAL_MACOS_Example
 {
@@ -20,6 +21,8 @@ namespace MAUI_MSAL_MACOS_Example
     		builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 
             return builder.Build();
         }

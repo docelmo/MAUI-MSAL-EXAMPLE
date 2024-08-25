@@ -361,3 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/MAUI MSAL Example/obj
+/MAUI MSAL Example/bin

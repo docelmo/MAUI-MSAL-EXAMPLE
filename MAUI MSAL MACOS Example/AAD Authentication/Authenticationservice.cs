@@ -25,9 +25,9 @@ public static class AuthCacheConfig
 {
     // App settings
     public static readonly string[] Scopes = new[] { "offline_access", "openid", "profile", "User.Read" };
-    public const string Authority = "https://login.microsoftonline.com/1a407a2d-7675-4d17-8692-b3ac285306e4";
-    public const string ClientId = "ddeafcf6-e23c-4c4f-bb5a-308183bd91e6";
-    public const string RedirectURI = "msauth.com.philips.cl.AsBuiltGUIMobile://auth";
+    public const string Authority = "https://login.microsoftonline.com/TENENTID GUID";
+    public const string ClientId = "CLIENTID";
+    public const string RedirectURI = "IOS/MacOS URL";
 }
 
 public class AuthenticationService : IAuthenticationService
@@ -55,20 +55,21 @@ public class AuthenticationService : IAuthenticationService
                 System.TimeSpan.FromSeconds(4),
                 System.TimeSpan.FromSeconds(8)
               });
-            MauiProgram._token = null;
+            
     }
 
     public async Task<string> GetTokenAsync(string[] scopes, bool silentOnly)
     {
         try
         {
-            await GetTokenFromStorageAsync();
-            MauiProgram._token = null;
-            if (MauiProgram._token != null)
+            TokenResponseModel? _token = null;
+            _token = await GetTokenFromStorageAsync();
+            
+            if (_token != null)
             {
-                if (MauiProgram._token.expires_at > DateTime.UtcNow.AddSeconds(30))
+                if (_token.expires_at > DateTime.UtcNow.AddSeconds(30))
                 {
-                    return MauiProgram._token.access_token;
+                    return _token.access_token;
                 }
                 return await GetRefreshTokenAsync(scopes, silentOnly);
             }
@@ -85,7 +86,7 @@ public class AuthenticationService : IAuthenticationService
 
     public void LogOut()
     {
-        MauiProgram._token = null;
+        
         string refreshToken;
 #if MACCATALYST
         Preferences.Remove(nameof(refreshToken));
@@ -94,9 +95,10 @@ public class AuthenticationService : IAuthenticationService
 #endif
     }
 
-    private async Task GetTokenFromStorageAsync()
+    private async Task<TokenResponseModel> GetTokenFromStorageAsync()
     {
-        if(MauiProgram._token == null)
+        TokenResponseModel _token = null;
+        if(_token == null)
         {
             string refreshToken = string.Empty;
 #if MACCATALYST
@@ -106,12 +108,14 @@ public class AuthenticationService : IAuthenticationService
 #endif
             if (!string.IsNullOrEmpty(refreshToken))
             {
-                MauiProgram._token = new()
+                _token = new()
                 {
                     refreshToken = refreshToken
                 };
             }
         }
+
+        return _token;
     }
 
     private async Task SetTokenInStorageAsync(string refreshToken)
@@ -125,6 +129,7 @@ public class AuthenticationService : IAuthenticationService
 
     private async Task<string> GetRefreshTokenAsync(string[] scopes, bool silentOnly)
     {
+        TokenResponseModel _token = null; 
         //https://login.microsoftonline.com/common/oauth2/v2.0/token
         //-ContentType application/x-www-form-urlencoded -Method POST
         //&code=$code&grant_type=refresh_token
@@ -133,17 +138,18 @@ public class AuthenticationService : IAuthenticationService
         loginPayload.Add(new("client_id", AuthCacheConfig.ClientId));
         loginPayload.Add(new("scope", string.Join(" ", scopes)));
         loginPayload.Add(new("grant_type", "refresh_token"));
-        loginPayload.Add(new("refresh_token", MauiProgram._token.refreshToken));
-        MauiProgram._token = await GetTokenFromAzAsync(scopes, loginPayload);
-        if(MauiProgram._token != null)
+        loginPayload.Add(new("refresh_token", _token.refreshToken));
+        _token = await GetTokenFromAzAsync(scopes, loginPayload);
+        if(_token != null)
         {
-            return MauiProgram._token.access_token;
+            return _token.access_token;
         }
         return await GetWebTokenAsync(scopes, silentOnly);
     }
 
     private async Task<string> GetWebTokenAsync(string[] scopes, bool silentOnly)
     {
+        TokenResponseModel _token = null;
         if (!silentOnly)
         {
 #if WINDOWS
@@ -162,8 +168,8 @@ public class AuthenticationService : IAuthenticationService
             loginPayload.Add(new("grant_type", "authorization_code"));
             loginPayload.Add(new("code", code));
             loginPayload.Add(new("redirect_uri", AuthCacheConfig.RedirectURI));
-            MauiProgram._token = await GetTokenFromAzAsync(scopes, loginPayload);
-            return MauiProgram._token.access_token;
+            _token = await GetTokenFromAzAsync(scopes, loginPayload);
+            return _token.access_token;
         }
         else
         {

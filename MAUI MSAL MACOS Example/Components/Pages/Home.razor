@@ -1,90 +1,37 @@
 ﻿@page "/"
-@using MSALAuth.MSALClient;
+@using System.Diagnostics
+@using oneDocument.Auth.Services
+@inject NavigationManager uriHelper;
+
+#if MACCATALYST
+@inject IAuthenticationService _authService
+#endif
+
+@code
+{
 
 
-@code {
-    private void login()
+    private async Task login()
     {
-       
+        
+#if MACCATALYST
+        var token = await _authService.GetTokenAsync(AuthCacheConfig.Scopes, false);
+        if (!string.IsNullOrEmpty(token))
+        {
+            Debug.Print("Redirecting to main application page!");
+            uriHelper.NavigateTo("/application", true);
+        }
+        else
+        {
+            StateHasChanged();
+        }
+        #endif
+
     }
-
-    public async static Task<AuthenticationResult> MSALLogin()
-    {
-        AuthenticationResult authResult = null;
-
-        try
-        {
-            authResult = await PCAWrapper.Instance.AcquireTokenSilentAsync(AppConstants.Scopes).ConfigureAwait(false);
-
-            if (authResult != null)
-            {
-
-                var email = authResult.Account.Username;
-                var _idToken = authResult.IdToken;
-                var _accessToken = authResult.AccessToken;
-
-            }
-            else
-            {
-                var isLoggedIn = false;
-                return null;
-            }
-            return authResult;
-        }
-        catch (MsalUiRequiredException ex)
-        {
-            // A MsalUiRequiredException happened on AcquireTokenSilent.
-            // This indicates you need to call AcquireTokenInteractive to acquire a token
-
-            try
-            {
-                authResult = await PCAWrapper.Instance.AcquireTokenInteractiveAsync(AppConstants.Scopes).ConfigureAwait(false);
-
-                if (authResult != null)
-                {
-
-                    var email = authResult.Account.Username;
-                    var _idToken = authResult.IdToken;
-                    var _accessToken = authResult.AccessToken;
-
-                    var isLoggedIn = true;
-
-                }
-                else
-                {
-                    var isLoggedIn = false;
-                    return null;
-                }
-                return authResult;
-            }
-            catch (MsalException msalex)
-            {
-
-            }
-        }
-        catch (Exception ex)
-        {
-
-        }
-        return null;
-    }
-
-    public async static Task Logout()
-    {
-        try
-        {
-            await PCAWrapper.Instance.SignOutAsync().ConfigureAwait(false);
-        }
-        catch (MsalException ex)
-        {
-            throw new Exception($"Error signing-out user: {ex.Message}");
-        }
-    }
-
 }
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
 
-<button class="btn btn-primary" @onclick="@login">Login to MSAL</button>
+<button class="btn btn-primary" @onclick="login">Login to MSAL</button>
