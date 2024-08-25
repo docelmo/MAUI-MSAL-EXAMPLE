@@ -9,9 +9,8 @@ namespace MSALAuth.MSALClient
 	internal class AppConstants
 	{
 
-        internal const string ClientId = "e54ee11a-3571-4ec7-b054-82d32123e8c3"; // <-- enter the client_id guid here
-        internal const string TenantId = "1a407a2d-7675-4d17-8692-b3ac285306e4"; // <-- enter either your tenant id here
-        //static string secret_id = "3sS7Q~c2M.6eRczmodQWFGUZ-1flsFivcXaSj";
+        internal const string ClientId = "CLIENTID GUID"; // <-- enter the client_id guid here
+        internal const string TenantId = "TENANTID GUID"; // <-- enter either your tenant id here
         public static string authority = "https://login.microsoftonline.com/" + TenantId;
 
 
