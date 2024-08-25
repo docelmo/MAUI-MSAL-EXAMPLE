@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAUI MSAL Example", "MAUI MSAL Example\MAUI MSAL Example.csproj", "{B7CF9ADD-5572-4FE5-8B2C-1CF443AE50FC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MAUI MSAL MACOS Example", "MAUI MSAL MACOS Example\MAUI MSAL MACOS Example.csproj", "{6166D0C1-75B2-48A7-B65A-9B60DE20F13E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B7CF9ADD-5572-4FE5-8B2C-1CF443AE50FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7CF9ADD-5572-4FE5-8B2C-1CF443AE50FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7CF9ADD-5572-4FE5-8B2C-1CF443AE50FC}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{B7CF9ADD-5572-4FE5-8B2C-1CF443AE50FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7CF9ADD-5572-4FE5-8B2C-1CF443AE50FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7CF9ADD-5572-4FE5-8B2C-1CF443AE50FC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6166D0C1-75B2-48A7-B65A-9B60DE20F13E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6166D0C1-75B2-48A7-B65A-9B60DE20F13E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6166D0C1-75B2-48A7-B65A-9B60DE20F13E}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{6166D0C1-75B2-48A7-B65A-9B60DE20F13E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6166D0C1-75B2-48A7-B65A-9B60DE20F13E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6166D0C1-75B2-48A7-B65A-9B60DE20F13E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {58C299F2-9E7A-41A2-B1F1-18B4C1760AC5}
+	EndGlobalSection
+EndGlobal
